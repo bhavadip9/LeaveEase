@@ -1,0 +1,169 @@
+﻿@using LeaveEase.Entity.Enum
+@model LeaveEase.Entity.ViewModel.UserRegisterViewModel
+
+@{
+	ViewData["Title"] = "Register";
+}
+
+
+
+<div class="container mt-4">
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+			@if (Model.UserId!=0)
+			{
+				<div class="d-flex flex-row justify-content-between mb-3">
+					<h2 class=" mb-4 header-title">Employee Edit</h2>	
+				</div>
+				
+			}
+			else
+			{
+				<div class="d-flex flex-row justify-content-between mb-3">
+				     <h2 class=" mb-4 header-title">Employee Registration</h2>	
+                </div>
+			
+			}
+			
+		 <form asp-action="Registration" asp-controller="User" enctype="multipart/form-data" method="post" class="shadow" style="border:1px solid #d9c6c6; padding:4%; border-radius:1%;" > 
+				<input asp-for="CreateByName" type="hidden" />
+				<input asp-for="IsActive" type="hidden" value="true" />
+				<input asp-for="UserId" type="hidden" />
+				<div class="row mb-3">
+					<div class="col">
+						<label class="form-label">First Name <span class="text-danger">*</span></label>
+						<input asp-for="FirstName" placeholder="First Name" class="form-control inputshadow" maxlength="30"/>
+						<span asp-validation-for="FirstName" class="text-danger"></span>
+					</div>
+					<div class="col">
+						<label class="form-label">Last Name <span class="text-danger">*</span></label>
+						<input asp-for="LastName" placeholder="Last Name" class="form-control inputshadow" maxlength="30"/>
+						<span asp-validation-for="LastName" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Email <span class="text-danger">*</span></label>
+					<input type="email" asp-for="Email" placeholder="Email" class="form-control inputshadow" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+				@if (Model.UserId == 0)
+				{
+				<div class="mb-3">
+					<label class="form-label">Password <span class="text-danger">*</span></label>
+					<div class="baricon password-box">
+						<input type="password" asp-for="Password" class="searchbaricon" id="password"  placeholder="Password">
+						<i class="bi bi-eye-fill eye-icon" onclick="togglePassword('password', this)"></i>
+					</div>
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+					<div class="baricon password-box">
+						<input type="password" asp-for="ConfirmPassword" class="searchbaricon" id="confirmPassword" placeholder="Confirm Password">
+						<i class="bi bi-eye-fill eye-icon" onclick="togglePassword('confirmPassword', this)"></i>
+					</div>
+					<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+				</div>	
+				}
+
+				<div class="mb-3">
+					<label class="form-label">Reporting Person<span class="text-danger">*</span></label>
+					<select asp-for="ReportingPerson" class="form-select inputshadow">
+					    <option value="">Select Reporting Person</option>
+						@if (Model.AdminList.Any())
+						{
+							foreach (var admin in Model.AdminList)
+							{
+								<option value="@admin.UserId">@admin.FirstName</option>
+							}
+						}
+					</select>
+					<span asp-validation-for="ReportingPerson" class="text-danger"></span>
+				</div>
+				
+
+				<div class="mb-3">
+					<label class="form-label">Role <span class="text-danger">*</span></label>
+					<select asp-for="Role" class="form-select inputshadow">
+					<option value="">Select Role</option>
+						@if (Model.RoleVM.Any())
+						{
+							foreach (var role in Model.RoleVM)
+							{
+								<option value="@role.RoleId">@role.RoleName</option>
+							}
+						}
+					</select>
+
+					<span asp-validation-for="Role" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Address <span class="text-danger">*</span></label>
+					<input asp-for="Address" placeholder="Address" class="form-control inputshadow" maxlength="50"/>
+					<span asp-validation-for="Address" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Department <span class="text-danger">*</span></label>
+					
+					<select class="form-select inputshadow" asp-for="Department" asp-items="@Html.GetEnumSelectList<Department>()">
+						<option selected="selected" value="">Select Department</option>
+					</select>
+					<span asp-validation-for="Department" class="text-danger"></span>
+				</div>
+
+
+				@if (Model.UserId == 0)
+				{
+					<div class="mb-3">
+						<label class="form-label">Birth Date <span class="text-danger">*</span></label>
+						<input asp-for="BirthDate" class="form-control inputshadow" type="date"  
+						max="@DateTime.Today.ToString("yyyy-MM-dd")" placeholder="BirthDate"/>
+						<span asp-validation-for="BirthDate" class="text-danger"></span>
+					</div>
+				}
+				else
+				{
+					<div class="mb-3">
+						<label class="form-label">Birth Date <span class="text-danger">*</span></label>
+						<input asp-for="BirthDate" class="form-control inputshadow" type="date" 
+						max="@DateTime.Today.ToString("yyyy-MM-dd")" placeholder="BirthDate"/>
+						<span asp-validation-for="BirthDate" class="text-danger"></span>
+					</div>
+				}
+
+				<div class="mb-3">
+					<label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+					<input type="text" asp-for="MobileNumber" placeholder="Mobile Number" class="form-control inputshadow" maxlength="10"/>
+					<span asp-validation-for="MobileNumber" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="ProfilePicture" class="form-label">Upload Profile Picture</label>
+					<input  asp-for="ProfilePicture" type="file" class="form-control inputshadow"
+						   accept="image/png, image/gif, image/jpeg"/>
+				</div>
+
+
+			@if (Model.UserId!=0)
+			{
+				<button type="submit" class="btn btn-primary mb-5 ">Update</button>
+				<button type="button" class="btn  mb-5 btn-secondary"> <a asp-controller="User" asp-action="Index" class="text-decoration-none  text-white">Cancel</a></button>
+			}
+			else
+			{
+				<button type="submit" class="btn btn-primary mb-5 ">Register</button>
+				<button type="reset" class="btn btn-secondary mb-5 ">Cancel</button>
+			}
+				
+			</form>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+    <script src="/js/User.js"></script>
+}

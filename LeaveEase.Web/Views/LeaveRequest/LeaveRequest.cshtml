@@ -1,0 +1,124 @@
+﻿@using LeaveEase.Entity.Enum
+@using LeaveEase.Entity.Constants;
+@model LeaveEase.Entity.ViewModel.LeaveRequestViewModel
+
+
+
+<div class="container mt-4">
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+		
+			@if (@Model.LeaveId == 0)
+			{
+				<div class="d-flex flex-row justify-content-between mb-3">
+
+					<h2 class=" mb-4 header-title">Leave Request</h2>
+					<button class="d-flex backbutton justify-content-center bg-primary-subtle rounded-2 align-items-center gap-2">
+						<a asp-action="Index" class="d-flex text-decoration-none text-black gap-2">
+							<i class="bi bi-chevron-left"></i>
+							<p class="m-auto">Back</p>
+						</a>
+					</button>
+				</div>				
+			}
+			else
+			{
+				<div class="d-flex flex-row justify-content-between mb-3">
+
+					<h2 class=" mb-4 header-title">Edit Leave Request</h2>
+					<button class="d-flex backbutton justify-content-center bg-primary-subtle rounded-2 align-items-center gap-2">
+						<a asp-action="Index" class="d-flex text-decoration-none text-black gap-2">
+							<i class="bi bi-chevron-left"></i>
+							<p class="m-auto">Back</p>
+						</a>
+					</button>
+				</div>	
+			}
+			
+
+
+			<form asp-action="LeaveRequest" method="post" class="shadow" style="border:1px solid #d9c6c6; padding:4%; border-radius:1%;">
+				@if (Model.Role == RoleConstant.SuperAdmin)
+				{
+					<input type="hidden" asp-for="Status" value="Approved" />
+				}
+				else
+				{
+					<input type="hidden" asp-for="Status" value="Pending" />
+				}				
+				<input type="hidden" asp-for="LeaveId" />
+				<input type="hidden" asp-for="EmployeeId" />
+				@if (@Model.LeaveId == 0)
+			{
+					<div class="col mb-3">
+						<label class="form-label">From Date <span class="text-danger">*</span></label>
+						<input type="date" id="FromDate" asp-for="FromDate" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" class="form-control inputshadow" />
+						<span asp-validation-for="FromDate" class="text-danger"></span>
+					</div>
+					<div class="col mb-3">
+						<label class="form-label">To Date <span class="text-danger">*</span></label>
+						<input type="date" id="ToDate" asp-for="ToDate" class="form-control inputshadow" />
+						<span asp-validation-for="ToDate" class="text-danger"></span>
+					</div>
+				}
+				else
+				{
+					<div class="col mb-3">
+						<label class="form-label">From Date <span class="text-danger">*</span></label>
+						<input type="date" id="FromDate" asp-for="FromDate" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" class="form-control inputshadow" />
+						<span asp-validation-for="FromDate" class="text-danger"></span>
+					</div>
+					<div class="col mb-3">
+						<label class="form-label">To Date <span class="text-danger">*</span></label>
+						<input type="date" id="ToDate" asp-for="ToDate" class="form-control inputshadow" />
+						<span asp-validation-for="ToDate" class="text-danger"></span>
+					</div>
+				}
+
+
+				<div class="row mb-3">
+					<div class="col-6">
+						<label class="form-label">Actual Leave Duration</label>
+						<input type="text" id="ActualLeaveDisplay" disabled class="form-control inputshadow" />
+						<input type="hidden" asp-for="ActualLeave" />
+					</div>
+					<div class="col-6">
+						<label class="form-label">Total Leave Duration</label>
+						<input type="text" id="TotalLeaveDisplay" disabled class="form-control inputshadow" />
+						<input type="hidden" asp-for="TotalLeave" />
+					</div>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Leave Type <span class="text-danger">*</span></label>
+					<select class="form-select inputshadow" asp-for="LeaveType" asp-items="@Html.GetEnumSelectList<LeaveType>()">
+						<option selected="selected"  value="">Select Leave Type</option>
+					</select>
+					<span asp-validation-for="LeaveType" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Leave Reason <span class="text-danger">*</span></label>
+					<textarea asp-for="Reason" rows="3" class="form-control hover-effect inputshadow" placeholder="Leave Reason"
+							  style="height:100px" maxlength="100"></textarea>
+
+					<span asp-validation-for="Reason" class="text-danger"></span>
+				</div>
+
+				@if (Model.LeaveId == 0)
+				{
+					<button type="submit" class="btn btn-primary mb-5 ">Submit</button>
+				}
+				else
+				{
+					<button type="submit" class="btn btn-primary mb-5 ">Update</button>
+				}
+				
+			</form>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts {
+	<script src="~/js/LeaveRequest.js" asp-append-version="true"></script>
+}

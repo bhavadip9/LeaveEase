@@ -1,0 +1,137 @@
+﻿@model LeaveEase.Entity.ViewModel.DashboardViewModel
+
+
+
+<div class=" mt-4">
+        <div class="row g-4 align-items-stretch">
+
+            <!-- Monthly Leaves Card -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 shadow-sm h-100 w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Monthly Leaves</h6>
+                        <i class="bi bi-person-x fs-5 text-danger"></i>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="text-center">
+                            <p class="mb-1 fw-semibold">Leaves</p>
+                        <p class="mb-0">@Model.MonthlyLeavesCount</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-1 fw-semibold">Total Leave</p>
+                        <p class="mb-0">@Model.TotalLeaveDays</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="mb-1 fw-semibold">Dates</p>
+                    <p class="mb-0"> @string.Join(", ", Model.MonthlyLeaveDates.Select(d => d.ToString("d")))</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employees Working Card -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 shadow-sm h-100 w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Employees Working</h6>
+                        <i class="bi bi-people-fill fs-5 text-primary"></i>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="text-center">
+                            <p class="mb-1 fw-semibold">Total Employees</p>
+                            <p class="mb-0">@Model.TotalEmployees</p>
+                        </div>
+                        <div class="text-center mt-2">
+                            <p class="mb-1 fw-semibold">Active Today</p>
+                            <p class="mb-0">@Model.TotalActiveEmployees</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Leave Requests -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 shadow-sm h-100 w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Pending Leave Requests</h6>
+                        <i class="bi bi-hourglass-split fs-5 text-warning"></i>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-1 fw-semibold">Requests</p>
+                        <p class="mb-0">5</p>
+                    </div>
+                    <div class="text-center mt-2">
+                        <button class="btn btn-sm btn-outline-primary">Review Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Leaves -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 shadow-sm h-100 w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Upcoming Leaves</h6>
+                        <i class="bi bi-calendar-event fs-5 text-info"></i>
+                    </div>
+                    <div class="text-start">
+                    @* <ul class="list-unstyled mb-0">
+                        @foreach (var leave in Model.UpcomingLeaves)
+                        {
+                            <li><strong>@leave.EmployeeName:</strong> @leave.LeaveDateRange</li>
+                        }
+                    </ul> *@
+                       
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaves Taken This Month -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 shadow-sm h-100 w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Leaves This Month</h6>
+                        <i class="bi bi-bar-chart-line fs-5 text-success"></i>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-1 fw-semibold">Total Taken</p>
+                    <p class="mb-0">@Model.LeavesTakenThisMonth</p>
+                    </div>
+                    <div class="text-center mt-2">
+                        <small class="text-muted">Across all departments</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Summary -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 shadow-sm bg-light h-100 w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Employee Summary</h6>
+                        <i class="bi bi-person-lines-fill fs-5 text-secondary"></i>
+                    </div>
+                   <div class="d-flex justify-content-between">
+                        <div class="text-center">
+                            <p class="mb-1 fw-semibold">Total Employees</p>
+                            <p class="mb-0">@Model.TotalEmployees</p>
+                        </div>
+                        <div class="text-center mt-2">
+                            <p class="mb-1 fw-semibold">Departments</p>
+                            <p class="mb-0">5</p>
+                        </div>
+                   </div>
+                </div>
+            </div>
+
+        </div>
+    </div>  
+
+
+
+
+
+
+
+
+
+
+

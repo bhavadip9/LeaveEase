@@ -1,0 +1,136 @@
+﻿@using LeaveEase.Entity.Constants
+@using LeaveEase.Entity.Enum
+@model LeaveEase.Entity.ViewModel.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+    @if(Model.RoleName == RoleConstant.SuperAdmin)
+    {
+    <h2 class="mb-3  header-title">
+        SuperAdmin Dashboard
+    </h2>
+     }
+else if (Model.RoleName == RoleConstant.Admin)
+{
+    <div class="d-flex justify-content-between">
+        <h2 class="mb-3  header-title">
+            Admin Dashboard
+        </h2>
+        @* <div class="mb-3">
+            <select id="timeFilter" asp-items="ViewBag.TimeList" class="form-select" style="height: 50px;">        
+            </select> 
+        </div> *@
+    </div>
+   
+}
+else
+{
+    <h2 class="mb-3  header-title">
+        Employee Dashboard
+    </h2>
+}
+
+
+
+
+
+@if(Model.RoleName == RoleConstant.SuperAdmin || Model.RoleName == RoleConstant.Admin)
+{
+<div id="dashboardContainer"></div>
+}
+else{
+<div class=" my-5">
+
+    <div class="row g-4 align-items-stretch">
+
+        <!-- Apply for Leave -->
+        <div class="col-md-6 d-flex">
+            <div class="card shadow-sm text-center w-100 p-4">
+                    <a asp-controller="LeaveRequest" asp-action="LeaveRequest" class="text-decoration-none text-white"><i class="bi bi-plus-circle-fill display-1 text-success mb-3"></i></a>
+                <h5>Apply for Leave</h5>
+                <p class="mb-3 text-muted">Submit your leave requests quickly</p>
+                <button class="btn btn-success btn-lg">
+                    <a asp-controller="LeaveRequest" asp-action="LeaveRequest" class="text-decoration-none text-white"><i class="bi bi-plus-circle"></i> New Leave Request</a>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- Monthly Leaves -->
+        <div class="col-md-6 d-flex">
+            <div class="card p-3 shadow-sm h-100 w-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">Monthly Leaves</h6>
+                    <i class="bi bi-person-x fs-5 text-danger"></i>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="text-center">
+                        <p class="mb-1 fw-semibold">Leaves</p>
+                            <p class="mb-0">@Model.MonthlyLeavesCount</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-1 fw-semibold">Total Leave</p>
+                            <p class="mb-0">@Model.TotalLeaveDays</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="mb-1 fw-semibold">Dates</p>
+                        <p class="mb-0">@string.Join(", ", Model.MonthlyLeaveDates.Select(d => d.ToString("d")))</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leave Requests -->
+        <div class="col-md-6 d-flex">
+            <div class="card shadow-sm h-100 w-100">
+                <div class="card-header bg-warning text-dark">
+                    <i class="bi bi-list-check me-2"></i> Leave Requests
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div><strong>June 5–7</strong> - Sick Leave</div>
+                            <span class="badge bg-secondary">Pending</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div><strong>May 15–17</strong> - Casual Leave</div>
+                            <span class="badge bg-success">Approved</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div><strong>April 1–3</strong> - Paid Time Off</div>
+                            <span class="badge bg-danger">Rejected</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Holidays -->
+        <div class="col-md-6 d-flex">
+            <div class="card shadow-sm h-100 w-100">
+                <div class="card-header bg-secondary text-white">
+                    <i class="bi bi-calendar3-event-fill me-2"></i> Company Holidays
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>July 4:</strong> Independence Day</li>
+                        <li class="list-group-item"><strong>September 5:</strong> Labor Day</li>
+                        <li class="list-group-item"><strong>December 25:</strong> Christmas Day</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+}
+
+
+
+@section Scripts{
+    <script src="~/js/Dashboard.js"></script>
+}

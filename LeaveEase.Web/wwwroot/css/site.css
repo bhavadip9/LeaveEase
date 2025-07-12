@@ -1,0 +1,223 @@
+html {
+    font-size: 14px;
+}
+
+.textsize {
+    font-size: small;
+}
+
+.active-header {
+    background-color: #aeebff75;
+}
+
+.active-header .navicon {
+    color: #127191;
+}
+
+
+.navitem:hover {
+    color: #127191;
+    background-color: #aeebff75;
+}
+
+.active-header i {
+    color: #127191;
+}
+
+.header-title {
+    color: #127191;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.baricon {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    height: 40px;
+    border: 1px solid #dbcece;
+}
+
+
+.searchbaricon {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.logologin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 34px;
+}
+
+.navbar {
+    background-color: #127191;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+}
+
+.inputshadow {
+    box-shadow: none !important;
+}
+
+.card {
+    min-height: 200px;
+}
+
+
+.sidebar {
+    background-color: #fff;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.navitem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s;
+    margin: 4%;
+    border-radius: 8px;
+}
+
+.backbutton {
+    height: 33px;
+    border: 1px solid;
+    background-color: white;
+    margin-top: 22px;
+}
+
+/*    .navitem:hover {
+        background-color: #f1f1f1;
+    }*/
+
+/*    .navitem:active {
+        background-color: #e2b8b8;
+        color: rgb(68, 68, 228);
+    }*/
+
+.navitem i {
+    font-size: 1.2rem;
+}
+
+.navitem a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+main {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.dropstart .dropdown-menu[data-bs-popper] {
+    left: auto;
+    margin-top: 50px;
+    margin-right: -2.5rem;
+}
+
+@media only screen and (max-width: 990px) {
+    .sidebar {
+        left: -250px;
+    }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+    main {
+        margin-left: 0;
+    }
+
+    .loginbody {
+        background-color: rgb(220, 231, 231);
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .image-body {
+        margin-top: 40px;
+    }
+
+    .from-body {
+        margin-top: 80px;
+    }
+}
+
+.expandChildTable {
+    float: right;
+}
+
+    .expandChildTable:before {
+        content: "+";
+        display: block;
+        cursor: pointer;
+    }
+
+    .expandChildTable.selected:before {
+        content: "-";
+    }
+
+.childTableRow {
+    display: none;
+}
+
+    .childTableRow table {
+        border: 2px solid #555;
+    }
+
+
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+
+.permission-toggle.active .expand-icon {
+    transform: rotate(180deg);
+}
+
+.permission-details {
+    transition: all 0.3s ease;
+}

@@ -1,0 +1,243 @@
+﻿@using LeaveEase.Entity.Constants;
+@model LeaveEase.Entity.ViewModel.PaginationViewModel<LeaveEase.Entity.ViewModel.LeaveApproveViewModel>
+@{
+    var canAddEdit = false;
+    var canDelete = false;
+    if (Context.Items.ContainsKey("CanAddEdit"))
+    {
+        canAddEdit = (bool)Context.Items["CanAddEdit"]!;
+    }
+    if (Context.Items.ContainsKey("CanDelete"))
+    {
+        canDelete = (bool)Context.Items["CanDelete"]!;
+    }
+
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th>
+                    Employee Name
+                    @if (ViewBag.SortByName == OrderByConstant.dec_by)
+                    {
+                        <i class="SortbyName bi bi-arrow-down" style="cursor: pointer;" data-sortByName="asc_name"></i>
+                    }
+                    else if (ViewBag.SortByName == OrderByConstant.asc_by)
+                    {
+                        <i class="SortbyName bi bi-arrow-up" style="cursor: pointer;" data-sortByName="dec_name"></i>
+                    }
+                    else
+                    {
+
+                        <i class="SortbyName bi bi-arrow-down" style="cursor: pointer;" data-sortByName="asc_name"></i>
+                        <i class="SortbyName bi bi-arrow-up" style="cursor: pointer;" data-sortByName="dec_name"></i>
+                    }
+                </th>
+                <th>
+                    From Date
+                    @if (ViewBag.SortByFromDate == OrderByConstant.dec_by)
+                    {
+                        <i class="SortByFromDate bi bi-arrow-down" style="cursor: pointer;" data-sortByFromDate="asc_name"></i>
+                    }
+                    else if (ViewBag.SortByFromDate == OrderByConstant.asc_by)
+                    {
+                        <i class="SortByFromDate bi bi-arrow-up" style="cursor: pointer;" data-sortByFromDate="dec_name"></i>
+                    }
+                    else
+                    {
+
+                        <i class="SortByFromDate bi bi-arrow-down" style="cursor: pointer;" data-sortByFromDate="asc_name"></i>
+                        <i class="SortByFromDate bi bi-arrow-up" style="cursor: pointer;" data-sortByFromDate="dec_name"></i>
+                    }
+                </th>
+                <th>
+                    To Date
+                    @if (ViewBag.SortByToDate == OrderByConstant.dec_by)
+                    {
+                        <i class="SortByToDate bi bi-arrow-down" style="cursor: pointer;" data-sortByToDate="asc_name"></i>
+                    }
+                    else if (ViewBag.SortByToDate == OrderByConstant.asc_by)
+                    {
+                        <i class="SortByToDate bi bi-arrow-up" style="cursor: pointer;" data-sortByToDate="dec_name"></i>
+                    }
+                    else
+                    {
+
+                        <i class="SortByToDate bi bi-arrow-down" style="cursor: pointer;" data-sortByToDate="asc_name"></i>
+                        <i class="SortByToDate bi bi-arrow-up" style="cursor: pointer;" data-sortByToDate="dec_name"></i>
+                    }
+                </th>
+                <th>
+                    Leave Type
+                    @if (ViewBag.SortByLeaveType == OrderByConstant.dec_by)
+                    {
+                        <i class="SortByLeaveType bi bi-arrow-down" style="cursor: pointer;" data-sortByLeaveType="asc_name"></i>
+                    }
+                    else if (ViewBag.SortByLeaveType == OrderByConstant.asc_by)
+                    {
+                        <i class="SortByLeaveType bi bi-arrow-up" style="cursor: pointer;" data-sortByLeaveType="dec_name"></i>
+                    }
+                    else
+                    {
+
+                        <i class="SortByLeaveType bi bi-arrow-down" style="cursor: pointer;" data-sortByLeaveType="asc_name"></i>
+                        <i class="SortByLeaveType bi bi-arrow-up" style="cursor: pointer;" data-sortByLeaveType="dec_name"></i>
+                    }
+                </th>
+                <th>
+                    Reason
+                </th>
+
+                <th>
+                    Status
+                </th>
+                @if (canAddEdit || canDelete)
+                {
+                    <th>Action</th>
+                }
+              
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.LeaveApproved.Any())
+            {
+
+                int i = (Model.PageIndex - 1) * Model.PageSize + 1;
+                foreach (var Leave in @Model.LeaveApproved)
+                {
+                    <tr>
+                        <td>
+                            @i
+                        </td>
+
+                        <td>
+							@Leave.EmployeeName
+                        </td>
+                        <td>
+                            @Leave.FromDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @Leave.ToDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @Leave.LeaveTypeString
+                        </td>
+
+                        <td class="reason-text" title="@Leave.Reason" style="max-width: 100px;white-space: nowrap;overflow: hidden; text-overflow: ellipsis;cursor: pointer;">
+                            @Leave.Reason
+                        </td>
+                        <td>
+                            @if (Leave.Status.ToString() ==StatusConstant.Pending )
+                            {
+                                <span class="bg-warning p-1 rounded d-flex text-center" style="width:75px"><small class="text-center m-auto">@Leave.Status</small></span>
+                            }
+                            else if (Leave.Status.ToString() ==StatusConstant.Approved)
+                            {
+                                <span class="bg-success text-white p-1 rounded d-flex text-center" style="width:75px"> <small class="text-center m-auto">@Leave.Status</small></span>
+                            }
+                            else if (Leave.Status.ToString() ==StatusConstant.Cancelled )
+                            {
+                                <span class="bg-dark text-white p-1 rounded d-flex text-center" style="width:75px"> <small class="text-center m-auto">@Leave.Status</small></span>
+                            }
+                            else
+                            {
+                                <span class="bg-danger text-white p-1 rounded d-flex text-center" style="width:75px"> <small class="text-center m-auto">@Leave.Status</small></span>
+                            }
+                        </td>
+                        @if (canAddEdit || canDelete )
+                            {
+                        <td>                  
+                            <div>
+                                    @if (Leave.Status.ToString() == StatusConstant.Cancelled)
+                                    {
+                                        
+                                    }
+                                    else
+                                    {
+                                        @if (canAddEdit)
+                                        {
+                                            <button class="btn">
+                                                <a asp-action="LeaveApprove" asp-controller="LeaveApprove"
+                                                   asp-route-leaveId="@Leave.LeaveId" class="text-black"><i class="bi bi-pen"></i></a>
+                                            </button>
+                                        }
+                                        @if (canDelete)
+                                        {
+                                            <button class="btn LeaveCancel" data-leave-id="@Leave.LeaveId">
+                                                <i class="bi bi-x "></i>
+                                            </button>
+                                        }
+                                    }
+                                                                  
+                            </div>
+                        </td>
+                        }
+                    </tr>
+                    i++;
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">
+                        No Data Available
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        
+    </table>
+</div>
+
+@if (Model.LeaveApproved != null && Model.LeaveApproved.Any())
+{
+    <div>
+        <div class="border-0" colspan="10">
+            <div class="d-flex align-content-center align-items-center justify-content-end">
+                <span>Items Per page: </span>
+                <div class="d-flex justify-content-end align-items-center">
+                    <div>
+                        <select class="form-select ms-2 page-list" id="LeaveApprovetableSizeSelect" asp-for="PageSize" onchange="paginationLeaveApprove(@Model.TotalCount)">
+                            <option value="2" selected="@((Model.PageSize == 2) ? "selected" : null)">2</option>
+                            <option value="5" selected="@((Model.PageSize == 5) ? "selected" : null)">5</option>
+                            <option value="10" selected="@((Model.PageSize == 10) ? "selected" : null)">10</option>
+                            <option value="15" selected="@((Model.PageSize == 15) ? "selected" : null)">15</option>
+                        </select>
+                    </div>
+
+                    <div class="ms-3">
+                        <span>
+                            Showing
+                            <span id="startUser">@((Model.PageIndex - 1) * Model.PageSize + 1)</span> -
+                            <span id="endUser">@Math.Min(Model.PageIndex * Model.PageSize, Model.TotalCount)</span> of
+                            <span id="totalUser">@Model.TotalCount</span>
+                        </span>
+                    </div>
+                    <div class="m-2">
+                        <button class="page-link btn bg-primary" onclick="pageChangeLeaveApprove('prev',@Model.TotalCount)" @(Model.PageIndex == 1 ? "disabled" : "") aria-label="Previous" id="previous_page">
+                            <i class="bi bi-chevron-left text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="m-2">
+                        <button class="page-link btn bg-primary " onclick="pageChangeLeaveApprove('next',@Model.TotalCount)" @((Model.PageIndex * Model.PageSize >= Model.TotalCount) ? "disabled" : "") aria-label="Next" id="next_page">
+                            <i class="bi bi-chevron-right text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+	<script src="~/js/LeaveApproved.js" asp-append-version="true"></script>
+}

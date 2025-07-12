@@ -1,0 +1,61 @@
+﻿@{
+
+    ViewData["Title"] = "UserList";
+}
+
+<div>
+    <h2 class="mb-3  header-title">
+        User List
+    </h2>
+
+    <div class="">
+        <div class="mb-3">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="UserListSearch">
+                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+
+
+
+        <ul class="nav nav-tabs" id="myTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active text-decoration-none text-black" id="tab-admin" data-bs-toggle="tab"
+                        data-bs-target="#tabpanel-admin" type="button" role="tab" aria-controls="tabpanel-admin"
+                        aria-selected="true">
+                    Admin
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-decoration-none text-black" id="tab-employee" data-bs-toggle="tab"
+                        data-bs-target="#tabpanel-employee" type="button" role="tab" aria-controls="tabpanel-employee"
+                        aria-selected="false">
+                    Employee
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tabpanel-admin" role="tabpanel" aria-labelledby="tab-admin">
+                <div id="UserListDivAdmin"></div>
+            </div>
+            <div class="tab-pane fade" id="tabpanel-employee" role="tabpanel" aria-labelledby="tab-employee">
+                <div id="UserListDivEmployee"></div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div id="DeleteModelOpen"></div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/User.js" asp-append-version="true"></script>
+}
+
+
+
+
+ 

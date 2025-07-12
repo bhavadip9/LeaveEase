@@ -1,0 +1,12 @@
+﻿@model LeaveEase.Entity.ViewModel.UserRegisterViewModel;
+
+<div>
+    <h2>Welcome, @Model.FirstName!</h2>
+    <p>
+	This is a confirmation email to let you know that your account has been successfully created. </p>
+	<strong>Account Details:</strong>
+    <p>Email : @Model.Email</p>
+    <p> Please Reset your Password <a style='color: blue; cursor:pointer' href="@Model.ResetLink">Link</a></p>
+   
+    <p>Regards,<br>LeaveEase Team</p>
+</div>

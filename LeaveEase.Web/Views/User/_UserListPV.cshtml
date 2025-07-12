@@ -1,0 +1,222 @@
+﻿@using LeaveEase.Entity.Constants;
+@model LeaveEase.Entity.ViewModel.PaginationViewModel<LeaveEase.Entity.ViewModel.UserListViewModel>
+
+@{
+    var canAddEdit = false;
+    var canDelete = false;
+    if (Context.Items.ContainsKey("CanAddEdit"))
+    {
+        canAddEdit = (bool)Context.Items["CanAddEdit"]!;
+    }
+    if (Context.Items.ContainsKey("CanDelete"))
+    {
+        canDelete = (bool)Context.Items["CanDelete"]!;
+    }
+}
+
+
+<div class="table-responsive ">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    No
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Role
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Deparment
+                    @if (ViewBag.SortBy == OrderByConstant.dec_by)
+                    {
+                         <i class="SortbyDeparment bi bi-arrow-down" style="cursor: pointer;" data-sortBy="asc_name"></i>
+                    }
+                    else if (ViewBag.SortBy == OrderByConstant.asc_by)
+                    {
+                        <i class="SortbyDeparment bi bi-arrow-up" style="cursor: pointer;" data-sortBy="dec_name"></i>
+                    }
+                    else
+                    {
+
+                        <i class="SortbyDeparment bi bi-arrow-down" style="cursor: pointer;" data-sortBy="asc_name"></i>
+                        <i class="SortbyDeparment bi bi-arrow-up" style="cursor: pointer;" data-sortBy="dec_name"></i>
+                    }
+                </th>
+                <th>
+                    Birth Date
+                </th>
+                <th>
+                    Mobile Number
+                </th>
+                <th>
+                    Create By
+                </th>
+                    <th>
+                        Reporting Person
+                    </th>
+       
+                @if (canAddEdit || canDelete)
+                {
+                    <th>
+                        Action
+                    </th>
+                }
+                
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Users!.Any())
+            {
+
+                int i = (Model.PageIndex - 1) * Model.PageSize + 1;
+                foreach (var user in @Model.Users!)
+                {
+                    <tr>
+                        <td>
+                            @i
+                        </td>
+                        <td>
+                            @user.FirstName
+                        </td>
+                        <td>
+                            @user.LastName
+                        </td>
+                        <td>
+                            @user.Email
+                        </td>
+                        <td>
+                            @user.RoleName
+                        </td>
+                        <td>
+                            @user.Address
+                        </td>
+                        <td class="text-center">
+                            @user.Department
+                        </td>
+                        <td>
+                            @user.BirthDate
+                        </td>
+                        <td>
+                            @user.MobileNumber
+                        </td>
+                        <td>
+                            @user.CreateBy
+                        </td>
+                      
+                            <td>
+                                @user.ReportingPerson
+                            </td>
+                                            
+
+                        @if(canAddEdit || canDelete)
+                        {
+                            <td>
+                                @if (user.RoleName == RoleConstant.SuperAdmin)
+                                {
+
+                                }
+                                else
+                                {
+                                    <div>
+                                        @if (canAddEdit)
+                                        {
+                                            <button class="btn">
+                                                <a asp-action="Registration" asp-controller="User"
+                                                   asp-route-id="@user.UserId" class="text-black"><i class="bi bi-pen"></i></a>
+                                            </button>
+
+                                            @* <button class="btn" data-user-id="@user.UserId" id="EditUser">
+                                                <i class="bi bi-pen"></i>
+                                            </button> *@
+                                        }
+                                        @if (canDelete)
+                                        {
+                                            <button class="btn" data-user-id="@user.UserId" id="DeleteUser">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        }   
+                                    </div>
+                                }
+
+                            </td>
+                        }
+                       
+                    </tr>
+                    i++;
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">
+                        No Data Available
+                    </td>
+                </tr>
+            }
+        </tbody>
+      
+         <input type="hidden" value="@Model.TotalCount" id="TotalCountUser" /> 
+    </table>
+</div>
+
+@if (Model.Users != null && Model.Users.Any())
+{
+    <div>
+        <div class="border-0" colspan="10">
+            <div class="d-flex align-content-center align-items-center justify-content-end">
+                <span>@Model.RoleName Per page: </span>
+                <div class="d-flex justify-content-end align-items-center">
+                    <div>
+                        <select class="form-select ms-2 page-list" id="usertableSizeSelect_@Model.RoleName" asp-for="PageSize" onchange="SelectPageSizeUserPage('@Model.RoleName',@Model.TotalCount)">
+                            <option value="2" selected="@((Model.PageSize == 2) ? "selected" : null)">2</option>
+                            <option value="5" selected="@((Model.PageSize == 5) ? "selected" : null)">5</option>
+                            <option value="10" selected="@((Model.PageSize == 10) ? "selected" : null)">10</option>
+                            <option value="15" selected="@((Model.PageSize == 15) ? "selected" : null)">15</option>
+                        </select>
+                    </div>
+
+                    <div class="ms-3">
+                        <span>
+                            Showing
+                            <span id="startUser">@((Model.PageIndex - 1) * Model.PageSize + 1)</span> -
+                            <span id="endUser">@Math.Min(Model.PageIndex * Model.PageSize, Model.TotalCount)</span> of
+                            <span id="totalUser">@Model.TotalCount</span>
+                        </span>
+                    </div>
+                    <div class="m-2">
+                        <button class="page-link btn bg-primary" id="prev" onclick="pageChangeUser('prev',@Model.TotalCount)" @(Model.PageIndex
+                                                                                                                                        == 1 ? "disabled" : "") aria-label="Previous" id="previous_page">
+                                                                               <i class="bi bi-chevron-left text-white" aria-hidden="true"></i>
+                                                                           </button>
+                                                                       </div>
+                                                                       <div class="m-2">
+                                                                           <button class="page-link btn bg-primary " id="next" onclick="pageChangeUser('next',@Model.TotalCount)" @((Model.PageIndex
+                                                                                                                                         * Model.PageSize >= Model.TotalCount) ? "disabled" : "") aria-label="Next" id="next_page">
+                        <i class="bi bi-chevron-right text-white"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    }
+
+
+
+@section Scripts {
+    <script src="~/js/User.js" asp-append-version="true"></script>
+}

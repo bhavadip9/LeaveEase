@@ -1,0 +1,22 @@
+﻿@model LeaveEase.Entity.ViewModel.LeaveRequestViewModel
+
+
+<div class="modal fade" id="DeleteLeaveRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="p-3">
+                <h1 class="modal-title fs-5 ps-1" id="exampleModalLabel">
+                    Confirmation
+                </h1>
+               
+            </div>
+            <div class="ps-4">
+                Are you sure you want to cancel this leave request?
+            </div>
+            <div class="p-3 d-flex justify-content-end gap-4">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-leave-id="@Model.LeaveId" id="DeleteLeaveRequestButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

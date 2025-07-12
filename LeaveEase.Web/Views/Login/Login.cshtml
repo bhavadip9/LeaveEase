@@ -1,0 +1,56 @@
+﻿@model LeaveEase.Entity.ViewModel.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+
+<body class="loginbody" >
+    <div class="login-container ">
+        <div class="logologin mb-5">
+            <h1 style="font-weight:900; margin-top: 10px; ">LeaveEase</h1>
+        </div>
+
+        <h5 class="mb-3 ms-0 text-start " style="font-weight: 600;">Welcome,</h5>
+    
+        <form asp-action="Login" method="post"> 
+            <div class="mb-3">
+                <label  class="form-label">Email <span class="text-danger">*</span></label>
+                <div class="baricon">
+                    <input asp-for="Email" class="searchbaricon" type="email" placeholder="Email">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>  
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password <span class="text-danger">*</span></label>
+                <div class="baricon password-box">
+                    <input type="password" asp-for="Password" class="searchbaricon" id="password" placeholder="Password">
+                    <i class="bi bi-eye-fill eye-icon" onclick="togglePassword('password', this)"></i>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="RememberMe" type="checkbox" id="RememberMe" value="true">
+                    <label class="form-check-label" for="RememberMe">Remember me</label>
+                </div>
+                <a herf="#" id="forgetPasswordLink" class="text-secondary text-info-emphasis text-decoration-none">
+                    Forgot Password?
+                </a>
+           
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+</body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

@@ -1,0 +1,111 @@
+﻿
+@using LeaveEase.Entity.Constants;
+@model LeaveEase.Entity.ViewModel.RolePermissionViewModel
+@{
+    ViewData["Title"] = "Permission";
+}
+
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class=" header-title">Permission</h2>
+        <div class="d-flex justify-content-end gap-3">           
+      </div>
+       
+    </div>
+
+    <form id="permissionForm">
+        <table class="table table-bordered table-hover shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th >Screens</th>
+                    @foreach (var role in Model.roleViewModels)
+                    {
+
+                        <th class="text-center"><span style="margin-left: 10px">@role.RoleName</span></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var permission in Model.Permissions)
+                {
+                    <tr class="bg-light permission-toggle" style="cursor:pointer;">
+                        <td colspan="@((Model.roleViewModels.Count() +1))" class="fw-semibold">
+                            @if (@permission.PermissionName == "LeaveApprove")
+                            {
+                                <span class="d-flex justify-content-between align-items-center">
+                                    Leave Approve
+                                    <i class="bi bi-chevron-down expand-icon transition"></i>
+                                </span>
+                            }
+                            else if (@permission.PermissionName == "LeaveRequest")
+                            {
+                                <span class="d-flex justify-content-between align-items-center">
+                                    Leave Request
+                                    <i class="bi bi-chevron-down expand-icon transition"></i>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="d-flex justify-content-between align-items-center">
+                                    @permission.PermissionName
+                                    <i class="bi bi-chevron-down expand-icon transition"></i>
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                    <tr class="permission-details d-none bg-white">
+                        <td colspan="@((Model.roleViewModels.Count() + 1))" class="p-0">
+                            <table class="table table-sm mb-0">
+                                <tbody>
+                                    @foreach (var action in new[] { "CanView", "CanAddEdit", "CanDelete" })
+                                    {
+                                        <tr>
+                                            <td class="ps-4 text-secondary">@action</td>
+                                            @foreach (var role in Model.roleViewModels)
+                                            {
+                                                var rolePermission = permission.RolePermissions.FirstOrDefault(r => r.RoleId == role.RoleId);
+                                                bool isChecked = action switch
+                                                {
+                                                    "CanView" => rolePermission?.CanView ?? false,
+                                                    "CanAddEdit" => rolePermission?.CanAddEdit ?? false,
+                                                    "CanDelete" => rolePermission?.CanDelete ?? false,
+                                                    _ => false
+                                                };
+
+
+                                                bool isDisabled = Model.RoleName == RoleConstant.Admin && role.RoleId.ToString() == RoleValue.SuperAdmin;
+
+                                                <td class="ps-4 text-secondary">
+                                                    <div class="form-check form-switch text-center" style="margin-left: 25px">
+                                                        <input class="form-check-input toggle-switch"
+                                                               type="checkbox"
+                                                               data-permission-id="@rolePermission?.PermissionId"
+                                                               data-role-id="@role.RoleId"
+                                                               data-action="@action"
+                                                               @(isChecked ? "checked" : "")
+                                                               @(isDisabled ? "disabled" : "") />
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+
+                                </tbody> 
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-end mt-4">
+            <button type="button" id="savePermissions" class="btn btn-success px-4 py-2">Save Permissions</button>
+        </div>
+    </form>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/js/Permission.js" asp-append-version="true"></script>
+}
